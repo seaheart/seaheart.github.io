@@ -1,0 +1,725 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="fore-end," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="无缝图片轮播运用的思想最关键的部分就是把轮播的第一张图克隆一下放到左右图片的末尾，以至于轮播到倒数第二张图（原最后一张图）之后不会出现空白，也有从最后一张图一下子跳到第一张图的操作，在代码中会提到，但是个人感觉比较晃眼，接下来上无缝图片轮播的代码：">
+<meta name="keywords" content="fore-end">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无缝图片轮播">
+<meta property="og:url" content="http://yoursite.com/2017/06/29/前端笔记/2017-06-29- 无缝图片轮播/index.html">
+<meta property="og:site_name" content="seaheart&#39;s Blog">
+<meta property="og:description" content="无缝图片轮播运用的思想最关键的部分就是把轮播的第一张图克隆一下放到左右图片的末尾，以至于轮播到倒数第二张图（原最后一张图）之后不会出现空白，也有从最后一张图一下子跳到第一张图的操作，在代码中会提到，但是个人感觉比较晃眼，接下来上无缝图片轮播的代码：">
+<meta property="og:updated_time" content="2017-06-29T14:59:57.679Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="无缝图片轮播">
+<meta name="twitter:description" content="无缝图片轮播运用的思想最关键的部分就是把轮播的第一张图克隆一下放到左右图片的末尾，以至于轮播到倒数第二张图（原最后一张图）之后不会出现空白，也有从最后一张图一下子跳到第一张图的操作，在代码中会提到，但是个人感觉比较晃眼，接下来上无缝图片轮播的代码：">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/29/前端笔记/2017-06-29- 无缝图片轮播/"/>
+
+
+
+
+
+  <title>无缝图片轮播 | seaheart's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">seaheart's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/29/前端笔记/2017-06-29- 无缝图片轮播/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Simba">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20907813.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="seaheart's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">无缝图片轮播</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T14:41:49+08:00">
+                2017-06-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/notes/" itemprop="url" rel="index">
+                    <span itemprop="name">notes</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>无缝图片轮播运用的思想最关键的部分就是把轮播的第一张图克隆一下放到左右图片的末尾，以至于轮播到倒数第二张图（原最后一张图）之后不会出现空白，也有从最后一张图一下子跳到第一张图的操作，在代码中会提到，但是个人感觉比较晃眼，接下来上无缝图片轮播的代码：<br><a id="more"></a></p>
+<h4 id="html部分"><a href="#html部分" class="headerlink" title="html部分"></a>html部分</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Carousel<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-3.2.1.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line">        *&#123;  margin:0;  padding: 0;  list-style: none;  &#125;</div><div class="line">        .container&#123;  width: 290px;  height: 435px;  border: 3px solid black;  position: relative;  overflow: hidden;  &#125;</div><div class="line">        .container .img&#123;  width: 2000px;  position: absolute;  left: 0px;  &#125;</div><div class="line">        .container .img li&#123; float: left;&#125;</div><div class="line">        .container .num&#123;  position: absolute;  width: 100%;  bottom:10px;  left:0;  text-align: center;  font-size: 0px;  &#125;</div><div class="line">        .container .num li&#123;  width: 10px;  height: 10px;  background: #888;  border-radius: 50% ;  display: inline-block;  margin:0 3px;  cursor: pointer;  &#125;</div><div class="line">        .container .num .on&#123;  background: #F60;  &#125;</div><div class="line">        .container .btn&#123;  width: 30px;  height: 50px;  background: rgba(0,0,0,0.5);  position: absolute;  top:50%;  margin-top: -25px;  text-align: center;  cursor: pointer;  line-height: 50px;  color:#fff;  font-size: 40px;  font-family: "宋体";  &#125;</div><div class="line">        .container .btn_l&#123; left: 0;&#125;</div><div class="line">        .container .btn_r&#123; right: 0;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"container"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"img"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/1.jpg"</span> <span class="attr">width</span>=<span class="string">"290px"</span> <span class="attr">alt</span>=<span class="string">"图片1"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/2.jpg"</span> <span class="attr">width</span>=<span class="string">"290px"</span> <span class="attr">alt</span>=<span class="string">"图片2"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/3.jpg"</span> <span class="attr">width</span>=<span class="string">"290px"</span> <span class="attr">alt</span>=<span class="string">"图片3"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/4.jpg"</span> <span class="attr">width</span>=<span class="string">"290px"</span> <span class="attr">alt</span>=<span class="string">"图片4"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"num"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn btn_l"</span>&gt;</span>&amp;lt;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"btn btn_r"</span>&gt;</span>&amp;gt;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="js部分"><a href="#js部分" class="headerlink" title="js部分"></a>js部分</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">        $(<span class="built_in">window</span>).resize(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">           $(<span class="string">".container"</span>).css(&#123;</div><div class="line">               <span class="attr">position</span>: <span class="string">"absolute"</span>,</div><div class="line">               <span class="attr">left</span>: ($(<span class="built_in">window</span>).width()-$(<span class="string">".container"</span>).outerWidth())/<span class="number">2</span>,</div><div class="line">               <span class="attr">top</span>: ($(<span class="built_in">window</span>).height()-$(<span class="string">".container"</span>).outerHeight())/<span class="number">2</span></div><div class="line">           &#125;)</div><div class="line">        &#125;);</div><div class="line">        $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            $(<span class="built_in">window</span>).resize();</div><div class="line">            <span class="keyword">var</span> i = <span class="number">0</span>;</div><div class="line">            <span class="keyword">var</span> clone = $(<span class="string">".container .img li"</span>).first().clone();  <span class="comment">//克隆第一张图片</span></div><div class="line">            $(<span class="string">".container .img"</span>).append(clone);</div><div class="line"></div><div class="line">            <span class="keyword">var</span> size = $(<span class="string">".container .img li"</span>).size();</div><div class="line">            $(<span class="string">".container .num li"</span>).first().addClass(<span class="string">"on"</span>);</div><div class="line"></div><div class="line">            <span class="comment">/*鼠标划入圆点*/</span></div><div class="line">            $(<span class="string">".container .num li"</span>).hover(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="keyword">var</span> index = $(<span class="keyword">this</span>).index();</div><div class="line">                i = index;</div><div class="line">                $(<span class="string">".container .img"</span>).stop().animate(&#123;<span class="attr">left</span>:index*<span class="number">-290</span>&#125;,<span class="number">500</span>)</div><div class="line">                $(<span class="keyword">this</span>).addClass(<span class="string">"on"</span>).siblings().removeClass(<span class="string">"on"</span>);</div><div class="line"></div><div class="line">            &#125;)</div><div class="line">            </div><div class="line">            <span class="comment">/*自动轮播*/</span></div><div class="line">            <span class="keyword">var</span> t = setInterval(moveR,<span class="number">2000</span>);</div><div class="line"></div><div class="line">            <span class="comment">/*对图片定时器的操作*/</span></div><div class="line">            $(<span class="string">".container"</span>).hover(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                clearInterval(t);</div><div class="line">            &#125;,<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                t = setInterval(moveR,<span class="number">2000</span>);</div><div class="line">            &#125;);</div><div class="line">            </div><div class="line">            <span class="comment">/*向左的按钮*/</span></div><div class="line">            $(<span class="string">".container .btn_l"</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">               moveL();</div><div class="line">            &#125;);</div><div class="line">           </div><div class="line">            <span class="comment">/*向右的按钮*/</span></div><div class="line">            $(<span class="string">".container .btn_r"</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                moveR();</div><div class="line">            &#125;);</div><div class="line">            </div><div class="line">            <span class="comment">/*右移函数*/</span></div><div class="line">            <span class="function"><span class="keyword">function</span>  <span class="title">moveR</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                i++;</div><div class="line">                <span class="keyword">if</span>(i == size)&#123;</div><div class="line">                    $(<span class="string">".container .img"</span>).css(&#123;<span class="attr">left</span>:<span class="number">0</span>&#125;)</div><div class="line">                    i = <span class="number">1</span>;</div><div class="line">                    <span class="comment">//i = 0;   //普通轮播</span></div><div class="line">                &#125;</div><div class="line">                $(<span class="string">".container .img"</span>).stop().animate(&#123;<span class="attr">left</span>:i*<span class="number">-290</span>&#125;,<span class="number">500</span>)</div><div class="line">                <span class="keyword">if</span>(i==size<span class="number">-1</span>)&#123;</div><div class="line">                    $(<span class="string">".container .num li"</span>).eq(<span class="number">0</span>).addClass(<span class="string">"on"</span>).siblings().removeClass(<span class="string">"on"</span>);</div><div class="line">                &#125;<span class="keyword">else</span>&#123;</div><div class="line">                    $(<span class="string">".container .num li"</span>).eq(i).addClass(<span class="string">"on"</span>).siblings().removeClass(<span class="string">"on"</span>);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">            <span class="comment">/*左移函数*/</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">moveL</span>(<span class="params"></span>) </span>&#123;</div><div class="line">                i--;</div><div class="line">                <span class="keyword">if</span>(i == <span class="number">-1</span>)&#123;</div><div class="line">                    $(<span class="string">".container .img"</span>).css(&#123;<span class="attr">left</span>:-(size<span class="number">-1</span>)*<span class="number">290</span>&#125;)</div><div class="line">                    i = size<span class="number">-2</span>;</div><div class="line">                    <span class="comment">//i = 0;   //普通轮播</span></div><div class="line">                &#125;</div><div class="line">                $(<span class="string">".container .img"</span>).stop().animate(&#123;<span class="attr">left</span>:i*<span class="number">-290</span>&#125;,<span class="number">500</span>)</div><div class="line">                $(<span class="string">".container .num li"</span>).eq(i).addClass(<span class="string">"on"</span>).siblings().removeClass(<span class="string">"on"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">    <span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/fore-end/" rel="tag"># fore-end</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/29/前端笔记/2017-6-29- html布局的认识/" rel="next" title="html布局的认识">
+                <i class="fa fa-chevron-left"></i> html布局的认识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/29/前端笔记/2017-6-29- js实现标题无缝向上滚动/" rel="prev" title="原生js实现标题无缝向上滚动">
+                原生js实现标题无缝向上滚动 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/20907813.jpg"
+               alt="Simba" />
+          <p class="site-author-name" itemprop="name">Simba</p>
+           
+              <p class="site-description motion-element" itemprop="description">一只有梦想的小猿</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/seaheart" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#html部分"><span class="nav-number">1.</span> <span class="nav-text">html部分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#js部分"><span class="nav-number">2.</span> <span class="nav-text">js部分</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Simba</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
